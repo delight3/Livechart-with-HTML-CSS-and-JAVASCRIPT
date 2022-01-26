@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        .typing{
+            /*display: none;*/
+            /*background-color: #f5f5f5;*/
+            /*width: 80px;*/
+            /*border-radius: 30%;*/
+            padding: 20px;
+            font-size: 0;
+            animation: pluse 20s infinite ease-out;
+			clear: both;
+        }
+        .typing__bullet{
+            display: inline-block;
+            width:8px;
+            height:8px;
+            border-radius: 50%;
+            background-color: #9E9EA1;
+            opacity: 0.4;
+            transition: all 100ms linear;
+        }
+        .typing span:nth-child(1) {
+            animation: 1s blink infinite .3333s;
+        }
+        .typing span:nth-child(2){
+            animation: 1s blink infinite.6666s;
+        }
+        .typing span:nth-child(3){
+            animation: 1s blink infinite.9999s;
+        }
+        @keyframes blink {
+            50%{
+            opacity:1
+        }
+        }
+       /*@keyframes pluse {*/
+       /*    50%{*/
+       /*        transform: scale(1.05);*/
+       /*    }*/
+       /*}*/
+
+        .container{
+			background-image: linear-gradient(to bottom, yellow, goldenrod);
+			min-height: 80vh;
+			position: relative;
+			padding: 20px;
+			font-family: 'open sans';
+		}
+		.chatbox{
+			height: 450px;
+			background-color: white;
+			border-radius: 13px;
+			width: 350px;
+			position: absolute;
+			right: 20px;
+			bottom: 0;
+
+		}
+		.topholder{
+			display: flex;
+			height: 14%;
+			border-bottom: 1px solid #666;
+			justify-content: space-around;
+			align-items: center;
+		}
+		.chatarea{
+			height: 86%;
+			background-color: #ccc;
+			overflow: auto;
+		}
+		.customer, .care{
+			clear: both;
+			padding: 5px;
+			margin:5px;
+			width: 80%;
+			background-color: white;
+			color: #666;
+			border-radius: 10px;
+			float: left;
+			animation: fadeUp 1s;
+		}
+		.customer{
+			clear: both;
+			float: right;
+			background-color: purple;
+			color: white;
+			font-weight: bold;
+			animation: fadeDown 1s;
+		}
+		.messages div{
+			display: flex;
+			margin: 5px 0;
+		}
+
+		.messages textarea{
+			padding: 15px;
+			font-family: 'berlin sans fb';
+			width: 80%;
+		}
+		.messages button{
+			width: 20%;
+			padding: 15px;
+		}
+		.smallInfo{
+			display: block;
+			clear: both;
+			margin-left: 15px;
+			color: yellow;
+		}
+        .smallInfoRight{
+			display: block;
+			clear: both;
+			text-align: right;
+			color: purple;
+		}
+		.disappear{
+			display: none;
+
+		}
+
+
+		@keyframes fadeUp{
+			0%{transform: translateY(-20px);}
+			100%{transform: translateY(0px);}
+		}
+		@keyframes fadeDown{
+			0%{transform: translateY(20px);}
+			100%{transform: translateY(0px);}
+		}
+
+
+
+    </style>
+</head>
+<body>
+<div class="container">
+		<div class="chatbox">
+			<div class="topholder">
+				<i class="fa fa-ellipsis-h"></i>
+				<p><b>Chat with Us!</b></p>
+				<div class="putme">
+					<i class="fa fa-minus"></i>
+					<i class="fa fa-times"></i>
+				</div>
+			</div>
+			<div class="chatarea">
+				<p class="care">Thank you for choosing <b style="color: gold">MTN</b>. How may we help you?</p>
+				<div class="typing">
+                    <span class="typing__bullet"></span>
+                    <span class="typing__bullet"></span>
+                    <span class="typing__bullet"></span>
+                </div>
+			</div>
+		</div>
+	</div>
+	<div class="messages">
+		<div>
+			<textarea id="customer" placeholder="Customer" onfocus="istyping(true)"></textarea><button id="btnCustomer">Submit</button>
+		</div>
+		<div>
+			<textarea id="customer_care" placeholder="Customer Care | Admin"></textarea><button id="btnCare">Submit</button>
+		</div>
+	</div>
+	<script type="text/javascript">
+		var msgCustomer = document.getElementById('customer');
+		var btnCustomer = document.getElementById('btnCustomer');
+		var area = document.getElementsByClassName('chatarea')[0];
+		var msgCare = document.getElementById('customer_care');
+		var btnCare = document.getElementById('btnCare');
+		var div = document.createElement('div');
+		var typing = document.createTextNode('typing');
+
+		btnCustomer.onclick = function(){
+		    var d = new Date();
+			var tm = d.getHours() +':' + d.getMinutes() + ':' + d.getSeconds();
+			var nameTime = document.createTextNode('customer, '+ tm);
+			var smallz = document.createElement('small');
+			var sentMessage = document.createElement('p');
+			var msg = document.createTextNode(msgCustomer.value);
+			smallz.appendChild(nameTime);
+			sentMessage.className = 'customer';
+			smallz.className = 'smallInfoRight';
+			area.appendChild(smallz);
+			sentMessage.append(msg);
+			area.appendChild(sentMessage);
+
+		};
+		btnCare.onclick = function (){
+		    var d = new Date();
+			var tm = d.getHours() +':' + d.getMinutes()  + ':' + d.getSeconds();
+			var nameTime = document.createTextNode('Admin, '+ tm);
+			var small = document.createElement('small');
+			var sentMessage = document.createElement('p');
+			var msg = document.createTextNode(msgCare.value);
+			small.appendChild(nameTime);
+			sentMessage.className = 'care';
+			small.className = 'smallInfo';
+			area.appendChild(small);
+			sentMessage.append(msg);
+			area.append(sentMessage);
+		};
+		function istyping(val) {
+			if (val == true){
+				setTimeout(()=>{
+					div.className = 'letter';
+					div.append(typing);
+					area.append(div);
+
+				});
+			}
+			else {
+				setInterval(()=>{
+					div.className = 'disappear';
+				})
+			}
+		}
+
+	</script>
+</body>
+</html>
